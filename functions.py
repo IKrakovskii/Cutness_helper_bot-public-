@@ -9,3 +9,8 @@ cat = '''
 　／￣|　　 |　|　|
 　| (￣ヽ＿_ヽ_)_)
 '''
+
+
+def out(text):
+    print('\033[1m\033[32m{}'.format(text), end='')
+    print('\033[1m\033[31m{}'.format(''))

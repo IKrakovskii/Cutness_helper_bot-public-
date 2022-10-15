@@ -1,19 +1,23 @@
-from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import ReplyKeyboardMarkup
-from functions import Token, cat
+import telebot
+from functions import Token, cat, out
 
-bot = Bot(token=Token)
-dp = Dispatcher(bot)
+bot = telebot.TeleBot(Token)
 
 
-async def on_startup(_):
-    print('Бот\n@first_edu_aiogram_bot\nзапущен', cat)
+def on_startup(_):
+    print('Бот\n@cuteness_helper_bot\nзапущен', cat)
 
 
-@dp.message_handler(commands=['start'])
-async def welcome(message: types.message):
-    await bot.send_message(message.from_user.id, 'Привет, этот бот создан, чтобы пересылать сообщения в отдельный канал')
+@bot.message_handler(commands=['start'])
+def welcome(message):
+    bot.answer_callback_query(message.chat.id,
+                              'Привет, этот бот создан, чтобы пересылать сообщения в отдельный канал')
+
+
+@bot.message_handler(commands=['F'])
+def forward(message):
+    bot.forward_message(message_id=message.id, from_chat_id='-1001523047524')
 
 
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
+    bot.infinity_polling()
